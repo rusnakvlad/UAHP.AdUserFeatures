@@ -34,7 +34,6 @@ public class GetComparasionByUserIdQueryHandler : IRequestHandler<GetComparasion
                         HouseYear = ad.HouseYear,
                         RentOportunity = ad.RentOportunity,
                         Region = ad.Region,
-                        District = ad.District,
                         City = ad.City,
                         AreaOfHouse = ad.AreaOfHouse
                     };

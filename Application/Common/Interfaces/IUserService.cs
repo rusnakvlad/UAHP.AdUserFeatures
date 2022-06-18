@@ -5,4 +5,5 @@ public interface IUserService
 {
     Task<UserDTO> Upsert(UserDTO userDTO);
     Task Delete(string id);
+    Task CleanUp(string externalId);
 }

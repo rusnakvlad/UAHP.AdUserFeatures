@@ -1,7 +1,6 @@
 using Application;
 using MassTransit;
 using Persistence;
-using WebAPI.Consumers;
 using Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,7 +21,9 @@ builder.Services.AddPersistence();
 #region RABBITMQ
 builder.Services.AddMassTransit(x =>
 {
-    x.AddConsumer<UserConsumer>();
+    x.AddConsumer<WebAPI.Consumers.UserConsumer>();
+    x.AddConsumer<WebAPI.Consumers.AdConsumer>();
+
     x.UsingRabbitMq((context, config) =>
     {
         config.Host(new Uri("rabbitmq://localhost"), h =>
@@ -31,10 +32,16 @@ builder.Services.AddMassTransit(x =>
             h.Password("guest");
         });
 
-        config.ReceiveEndpoint("user-queue", e =>
+        config.ReceiveEndpoint("user-queue-aduserfeatures", e =>
         {
-            e.Consumer<UserConsumer>(context);
+            e.Consumer<WebAPI.Consumers.UserConsumer>(context);
         });
+
+        config.ReceiveEndpoint("ad-queue-aduserfeatures", e =>
+        {
+            e.Consumer<WebAPI.Consumers.AdConsumer>(context);
+        });
+
         config.ConfigureEndpoints(context);
     });
 });

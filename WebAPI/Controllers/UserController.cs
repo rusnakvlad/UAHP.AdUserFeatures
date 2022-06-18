@@ -7,17 +7,17 @@ namespace WebAPI.Controllers;
 
 public class UserController : BaseController
 {
-    //[HttpPost]
-    //public async Task<IActionResult> Upsert([FromBody] UpsertUserCommand command)
-    //{
-    //    var response = await Mediator.Send(command);
-    //    return Ok(response);
-    //}
+    [HttpPost]
+    public async Task<IActionResult> Upsert([FromBody] UpsertUserCommand command)
+    {
+        var response = await Mediator.Send(command);
+        return Ok(response);
+    }
 
-    //[HttpDelete]
-    //public async Task<IActionResult> Delete([FromBody] DeleteUserCommand command)
-    //{
-    //    await Mediator.Send(command);
-    //    return Ok();
-    //}
+    [HttpDelete]
+    public async Task<IActionResult> Delete([FromBody] DeleteUserCommand command)
+    {
+        await Mediator.Send(command);
+        return Ok();
+    }
 }

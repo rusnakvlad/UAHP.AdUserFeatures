@@ -16,9 +16,10 @@ public class UserService : IUserService
         this.mapper = mapper;
     }
 
-    public Task Delete(string id)
+    public async Task Delete(string id)
     {
-        throw new NotImplementedException();
+        var filter = Builders<User>.Filter.Eq("_id", id);
+        await context.Users.DeleteOneAsync(filter);
     }
 
     public async Task<UserDTO> Upsert(UserDTO userDTO)
@@ -54,9 +55,23 @@ public class UserService : IUserService
                 Email = userDTO.Email,
                 Phone = userDTO.Phone
             };
-            await context.Users.InsertOneAsync(user);
+
+            if(context.Users.AsQueryable().Count(u => u.ExternalId == user.ExternalId) == 0)
+            {
+                await context.Users.InsertOneAsync(user);
+            }
         }
 
         return mapper.Map<UserDTO>(user);
+    }
+
+    public async Task CleanUp(string externalId)
+    {
+        if(context.Users.AsQueryable().Count(x => x.ExternalId == externalId) > 1)
+        {
+            var user = context.Users.AsQueryable().First(x => x.ExternalId == externalId);
+            var filter = Builders<User>.Filter.Eq("_id", user.Id);
+            await context.Users.DeleteOneAsync(filter);
+        }
     }
 }

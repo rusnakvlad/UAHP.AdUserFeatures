@@ -14,7 +14,6 @@ public class Ad
     public int HouseYear { get; set; }
     public bool RentOportunity { get; set; }
     public string Region { get; set; }
-    public string District { get; set; }
     public string City { get; set; }
     public int AreaOfHouse { get; set; }
 }

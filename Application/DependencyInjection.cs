@@ -1,4 +1,5 @@
-﻿using Application.Common.Interfaces;
+﻿using Application.Advertisments;
+using Application.Common.Interfaces;
 using Application.Users;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,8 @@ public static class DependencyInjection
         services.AddMediatR(Assembly.GetExecutingAssembly());
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddTransient<IUserService, UserService>();
+        services.AddTransient<IAdService, AdService>();
+
         return services;
     }
 }

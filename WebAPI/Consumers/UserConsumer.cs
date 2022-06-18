@@ -1,7 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Application.Users.DTOs;
 using MassTransit;
-using MediatR;
 using UAHause.CommonWork.Models;
 
 namespace WebAPI.Consumers;
@@ -24,6 +23,7 @@ public class UserConsumer : IConsumer<UAHause.CommonWork.Models.User>
             Phone = commonUser.Phone,
         };
 
-        await userService.Upsert(user);
+        userService.Upsert(user);
+        userService.CleanUp(user.ExternalId);
     }
 }
