@@ -2,6 +2,7 @@ using Application;
 using MassTransit;
 using Persistence;
 using WebAPI.Consumers;
+using Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 #region LAYERS DEPENDENCY INJECTION
+builder.Services.AddInfrastructure();
 builder.Services.AddApplication();
 builder.Services.AddPersistence();
 #endregion

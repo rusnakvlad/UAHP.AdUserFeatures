@@ -1,7 +1,7 @@
 ﻿using Application.FavoriteAds.Commands.Delete;
 using Application.FavoriteAds.Commands.Insert;
 using Application.FavoriteAds.Queries.GetFavoriteAds;
-using Microsoft.AspNetCore.Http;
+using Application.FavoriteAds.Queries.GetFavoriteAdsByUserId;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -17,8 +17,22 @@ public class FavoriteAdController : BaseController
         return Ok(response);
     }
 
+    [HttpGet("cache")]
+    public async Task<IActionResult> GetUserFavoriteAdsFromCache([FromQuery] GetFavoriteAdsFromCacheQuery query)
+    {
+        var response = await Mediator.Send(query);
+        return Ok(response);
+    }
+
     [HttpPost]
     public async Task<IActionResult> Insert([FromBody] InsertFavoriteAdCommand command)
+    {
+        await Mediator.Send(command);
+        return Ok();
+    }
+
+    [HttpPost("cache")]
+    public async Task<IActionResult> InsertInCahce([FromBody] InsertFavoriteInCacheCommand command)
     {
         await Mediator.Send(command);
         return Ok();
