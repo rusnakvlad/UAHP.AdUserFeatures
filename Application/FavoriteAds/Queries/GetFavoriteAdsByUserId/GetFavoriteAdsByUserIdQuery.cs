@@ -23,6 +23,7 @@ public class GetFavoriteAdsByUserIdQueryHandler : IRequestHandler<GetFavoriteAds
                     select new AdShortInfoDTO()
                     {
                         Id = fav.Id,
+                        AdExternalId = ad.adExternalId,
                         OwnerId = user.Id,
                         TitleImage = ad.TitleImage,
                         Price = ad.Price,

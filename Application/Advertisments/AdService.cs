@@ -23,6 +23,8 @@ public class AdService : IAdService
     public async Task Upsert(AdDTO adDTO)
     {
         Ad advertisment;
+        var localUser = context.Users.AsQueryable().Where(x => x.ExternalId == adDTO.OwnerId).FirstOrDefault();
+
         if (!string.IsNullOrEmpty(adDTO.Id) && !string.IsNullOrWhiteSpace(adDTO.Id))
         {
             var filter = Builders<Ad>.Filter.Eq("_id", adDTO.Id);
@@ -32,7 +34,6 @@ public class AdService : IAdService
             {
                 throw new Exception("Not found advertisment with such id");
             }
-            var localUser = context.Users.AsQueryable().Where(x => x.ExternalId == adDTO.OwnerId).FirstOrDefault();
             var update = Builders<Ad>.Update
                 .Set(a => a.adExternalId, adDTO.adExternalId)
                 .Set(a => a.OwnerId, localUser.Id)
@@ -54,7 +55,7 @@ public class AdService : IAdService
         {
             advertisment = new Ad();
             advertisment.adExternalId = adDTO.adExternalId;
-            advertisment.OwnerId = adDTO.OwnerId;
+            advertisment.OwnerId = localUser.Id;
             advertisment.TitleImage = adDTO.TitleImage;
             advertisment.Price = adDTO.Price;
             advertisment.RoomNumber = adDTO.RoomNumber;

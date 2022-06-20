@@ -1,6 +1,7 @@
 ﻿using Application.Advertisments.Commands.Delete;
 using Application.Advertisments.Commands.Upsert;
 using Application.Advertisments.Queries.GetAll;
+using Application.Advertisments.Queries.GetUserAdvertismentsQuery;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -12,6 +13,13 @@ public class AdvertismentsController : BaseController
     public async Task<IActionResult> GetAll()
     {
         var query = new GetAllAdvertismentsQuery();
+        var result = await Mediator.Send(query);
+        return Ok(result);
+    }
+
+    [HttpGet("userAdvertisments")]
+    public async Task<IActionResult> GetByUserId([FromQuery] GetUserAdvertismentsQuery query)
+    {
         var result = await Mediator.Send(query);
         return Ok(result);
     }
