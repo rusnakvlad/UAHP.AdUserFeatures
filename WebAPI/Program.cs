@@ -2,6 +2,7 @@ using Application;
 using MassTransit;
 using Persistence;
 using Infrastructure;
+using Application.Common.Grpc.GrpcAdUserFeaturesService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -73,6 +74,8 @@ app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
 
+
 app.MapControllers();
+app.MapGrpcService<GrpcAdUserFeaturesService>();
 
 app.Run();

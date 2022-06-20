@@ -15,6 +15,7 @@ public static class DependencyInjection
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddTransient<IUserService, UserService>();
         services.AddTransient<IAdService, AdService>();
+        services.AddGrpc();
 
         return services;
     }
